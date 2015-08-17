@@ -1,10 +1,5 @@
-import urllib.parse
-import base64
-import time
-import json
-import string
-import random
-import requests
+import urllib.parse, base64
+import time, json, string, random, requests, os
 from requests_oauthlib import OAuth1
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -13,7 +8,7 @@ from django.contrib.auth.views import logout
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import BusInstance, Bus, County, Slot, Coordinate, BusUser
-from bus import secret
+#from bus import secret
 
 # Create your views here.
 
@@ -32,6 +27,7 @@ def index_view(request):
         "loc": "index",
         "iodine_token": gen_iodine_reqtoken(request)
     }
+
     return render(request, "index.html", context)
 
 
@@ -49,19 +45,20 @@ def display_view(request):
         "num": num,
         "loc": "display"
     }
+
     return render(request, "display.html", context)
 
 
 def notify_twitter(status):
     url = 'https://api.twitter.com/1.1/statuses/update.json'
 
-    auth = OAuth1(secret.CONSUMER_KEY,
-                 secret.CONSUMER_SECRET,
-                 secret.ACCESS_TOKEN_KEY,
-                 secret.ACCESS_TOKEN_SECRET)
+    auth = OAuth1(os.getenv('TWITTER_CONSUMER_KEY'),
+                 os.getenv('TWITTER_CONSUMER_SECRET'),
+                 os.getenv('TWITTER_ACCESS_TOKEN_KEY'),
+                 os.getenv('TWITTER_ACCESS_TOKEN_SECRET'))
 
     data = {
-        "status": status
+        "status": status,
     }
 
     req = requests.post(url, data=data, auth=auth)
@@ -74,8 +71,8 @@ def notify_bus(request, businst):
     tw = notify_twitter(status)
 
     users = BusUser.objects.filter(bus_name=businst.bus.name)
-    for usr in users:
-        secret.email_send(usr.user.email, status, "Find out now at http://busfinder.wogloms.com/")
+    #for usr in users:
+    #    secret.email_send(usr.user.email, status, "Find out now at http://busfinder.wogloms.com/")
 
     return "{" + '"emailed": {}, "twitter": {}'.format(len(users), tw) + "}"
 
@@ -204,7 +201,7 @@ def map_view(request):
 def gen_iodine_reqtoken(request):
     data = {
         "title": "Bus Locator",
-        "return": "http://busfinder.wogloms.com/login" if secret.PRODUCTION else request.build_absolute_uri('/login'),
+        "return": "http://busfinder.wogloms.com/login" if os.getenv('PRODUCTION') == 'True' else request.build_absolute_uri('/login'),
         "time": int(time.time()),
         "exp": int(time.time() + 120),
         "method": "GET" # REQUIRED due to requirement for csrftoken in POST

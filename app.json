@@ -1,0 +1,7 @@
+{
+  "name": "BusFinder",
+  "description": "A management system for arrival data of school buses, connecting with TJ Intranet accounts to send emails and tweets.",
+  "repository": "https://github.com/tcyrus-hackathon/BusFinder",
+  "logo": "https://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["python", "django", "tjhsst"]
+}

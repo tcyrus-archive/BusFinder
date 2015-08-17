@@ -1,5 +1,6 @@
 from .models import BusUser
 from django.contrib.auth.models import User
+
 def is_admin(request):
     """Add whether the user is an admin."""
     if request.user and request.user.is_authenticated():

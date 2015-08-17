@@ -1,6 +1,7 @@
 # Custom
 *.sqlite3
 *.sqlite3_
+assets/
 bus/secret.py
 
 # Byte-compiled / optimized / DLL files
