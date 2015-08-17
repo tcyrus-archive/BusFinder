@@ -1,4 +1,4 @@
-# [HackTJ 2015](https://hacktj.org/) 2015 Project - BusFinder
+# [HackTJ 2015](https://hacktj.org/) - [BusFinder](http://devpost.com/software/busfinder-1ey7z)
 
 ![](static/img/screenshot.png)
 
