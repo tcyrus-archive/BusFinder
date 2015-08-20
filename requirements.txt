@@ -1,8 +1,8 @@
 django
+dj-static
 dj-database-url
 django-postgrespool
 django-extensions
 requests
 requests-oauthlib
 gunicorn
-whitenoise
