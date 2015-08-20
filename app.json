@@ -3,5 +3,42 @@
   "description": "A management system for arrival data of school buses, connecting with TJ Intranet accounts to send emails and tweets.",
   "repository": "https://github.com/tcyrus-hackathon/BusFinder",
   "logo": "https://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["python", "django", "tjhsst"]
+  "keywords": ["python", "django", "tjhsst"],
+  "scripts": {
+    "postdeploy": "python manage.py syncdb"
+  },
+  "env": {
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "TWITTER_CONSUMER_KEY": {
+      "description": "The Twitter API Consumer Key",
+      "required": false
+    },
+    "TWITTER_CONSUMER_SECRET": {
+      "description": "The Twitter API Consumer Secret Key",
+      "required": false
+    },
+    "TWITTER_ACCESS_TOKEN_KEY": {
+      "description": "The Twitter API Access Token Key",
+      "required": false
+    },
+    "TWITTER_ACCESS_TOKEN_SECRET": {
+      "description": "The Twitter API Access Token Secret Key",
+      "required": false
+    },
+    "PRODUCTION": {
+      "description": "Production",
+      "value": "True"
+    }
+  }
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-python"
+    }
+  ]
 }
